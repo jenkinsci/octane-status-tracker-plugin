@@ -177,10 +177,22 @@ Store an Octane API client in Jenkins **Username with password** credentials: th
 username is `client_id`, and the password is `client_secret`. Use an HTTPS Octane URL
 with a trusted certificate chain. Never put credentials in the Jenkinsfile.
 
+Store the URL (for example `https://octane.example.com`, without an API path) in a separate
+Jenkins **Secret text** credential. `baseUrl` accepts its credential ID only, not a URL.
+The Snippet Generator labels this selector **Octane URL Secret Text credential**; the API
+selector lists Username with password credentials. Both selectors require job configuration
+permission and list only credentials accessible to that job. At runtime, the accessible
+`octane-api-client` takes precedence over the selected API credential; folder-local credentials
+are resolved in the executing build's context.
+
+Octane requests use Jenkins' proxy settings, including proxy authentication and no-proxy hosts.
+Proxy changes apply to the next gate connection. HTTPS verification stays enabled, and redirects
+stay disabled to prevent forwarding credentials to a different endpoint.
+
 ```groovy
 octaneSuiteGate(
   serverId: 'octane',
-  baseUrl: 'secret-id',
+  baseUrl: 'octane-shared-url',
   credentialsId: 'octane-api-client',
   sharedSpaceId: '1001',
   workspaceId: '5002',
