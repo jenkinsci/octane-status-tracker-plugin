@@ -2,6 +2,10 @@
 name: Release
 
 on:
+  # The reusable workflow verifies Jenkins CI success before publishing.
+  check_run:
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       validate_only:
