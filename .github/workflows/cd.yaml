@@ -2,7 +2,7 @@
 name: Release
 
 on:
-  # The reusable workflow verifies Jenkins CI success before publishing.
+  # The reusable workflow verifies Jenkins CI success before publishing. Add label to release.
   check_run:
     types:
       - completed
